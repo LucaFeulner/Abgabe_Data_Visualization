@@ -2,12 +2,22 @@ import plotly.graph_objects as go
 import Datensets
 
 
-df = Datensets.df5
+#_______________________________________________________________________________________________________________________________________________________
+
+#________________________________________________________Balkendiagramm____________________________________________________________________________________
+#_______________________________________________________________________________________________________________________________________________________
 
 #Geschschteltes Balkendiagramm durchschnittliche verspätete Zeit pro Flug
-#X-Achse Kurzstrec kenflüge bis <= 1.500Km, Rest ist Langstrecke
-#Y-Achse durchschnittliche verspätung pro flug
+#X-Achse Kurzstrec kenflüge bis <= 1.000, Mittelstrecke >1000 und <= 3000, Langstrecke > 3000.
+#Y-Achse durchschnittliche verspätung pro flug in Minuten
 #Beim Drüber hovern soll die Airline angezeigt werden und an der Seite gibt es eine legende mit den Farben für kurz und langstrecke
+
+
+
+
+# Datenset aus Datensets.py importieren 
+df = Datensets.df5
+
 
 
 
@@ -16,17 +26,19 @@ df["DELAY"] = df["DEPARTURE_DELAY"]-df["DESTINATION_DELAY"]
 avg_delay = df.groupby("AIRLINE")["DELAY"].mean()
 airline_group = df["AIRLINE"].unique()
 
+# Festlegen, ab welcher Distanz welche Art von Flug ist
 short_haul = df[df["DISTANCE"] <= 1000]
 medium_haul = df[(df["DISTANCE"] <= 3000) & (df["DISTANCE"] > 1000)]
 long_haul = df[df["DISTANCE"] >3000]
 
+# Berechnen der durchschnittlichen Verspätung pro Flug
 short_haul_avg_delay = short_haul.groupby("AIRLINE")["DELAY"].mean()
 medium_haul_avg_delay = medium_haul.groupby("AIRLINE")["DELAY"].mean()
 long_haul_avg_delay = long_haul.groupby("AIRLINE")["DELAY"].mean()
 
 
 
-
+# Balken für die Kurzstrecke
 trace1 = go.Bar(
     x = airline_group,
     y = short_haul_avg_delay,
@@ -34,6 +46,7 @@ trace1 = go.Bar(
     marker_color='rgb(118, 204, 122)'
 )
 
+# Balken für die Mittelstrecke
 trace2 = go.Bar(
     x = airline_group,
     y = medium_haul_avg_delay,
@@ -42,6 +55,7 @@ trace2 = go.Bar(
 
 )
 
+# Balken für die Langstrecke
 trace3 = go.Bar(
     x = airline_group,
     y = long_haul_avg_delay,
@@ -50,7 +64,7 @@ trace3 = go.Bar(
 )
 
 
-
+# Style für das Balkendiagramm
 layout = go.Layout(
     title = "Average Delay per flight",
     xaxis_tickfont_size=14,

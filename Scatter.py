@@ -1,7 +1,19 @@
-#besteht ein zusammenhang zwischen der länge des fluges und der verspätung
-
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
+import Datensets
 
+#_______________________________________________________________________________________________________________________________________________________
+
+#________________________________________________________Scatterplot____________________________________________________________________________________
+#_______________________________________________________________________________________________________________________________________________________
+
+
+#besteht ein zusammenhang zwischen der länge des fluges und der verspätung
+
+
+
+
+#besteht ein zusammenhang zwischen der länge des fluges und der verspätung
+df = Datensets.df5
 

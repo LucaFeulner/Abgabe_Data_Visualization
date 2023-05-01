@@ -20,7 +20,7 @@ app = dash.Dash()
 
 app.layout = html.Div([
     dcc.Graph(
-        id="Barchart",
+        id="Barchart",  
         figure= {
             "data": [Balkendiagramm.trace1, Balkendiagramm.trace2,Balkendiagramm.trace3],
             "layout": go.Layout(

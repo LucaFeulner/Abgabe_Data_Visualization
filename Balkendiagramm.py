@@ -1,6 +1,6 @@
 import plotly.graph_objects as go
 import Datensets
-
+import Layout
 
 #_______________________________________________________________________________________________________________________________________________________
 
@@ -13,7 +13,7 @@ import Datensets
 #Beim Drüber hovern soll die Airline angezeigt werden und an der Seite gibt es eine legende mit den Farben für kurz und langstrecke
 
 
-
+# Filter durchschnitt, ankunft , verspätung
 
 # Datenset aus Datensets.py importieren 
 df = Datensets.df5
@@ -36,7 +36,7 @@ short_haul_avg_delay = short_haul.groupby("AIRLINE")["DELAY"].mean()
 medium_haul_avg_delay = medium_haul.groupby("AIRLINE")["DELAY"].mean()
 long_haul_avg_delay = long_haul.groupby("AIRLINE")["DELAY"].mean()
 
-
+fig1 = go.Figure()
 
 # Balken für die Kurzstrecke
 trace1 = go.Bar(
@@ -61,6 +61,7 @@ trace3 = go.Bar(
     y = long_haul_avg_delay,
     name = "long_haul",
     marker_color='rgb(55, 83, 109)'
+    
 )
 
 
@@ -85,5 +86,41 @@ layout = go.Layout(
 
 )
 
+fig1.add_trace(trace1)
+fig1.add_trace(trace2)
+fig1.add_trace(trace3)
+
+fig1 = go.Figure(data=[trace1,trace2, trace3], layout= Layout.layout_Barchart)
 
 
+fig1.update_layout(
+    updatemenus = [
+        dict(
+            active = 0, 
+            buttons = list([
+                dict(label = "None",
+                     method = "update",
+                     args = [{"visible": [True, True, True]},
+                             {"title": "Average Delay per Flight"}]),
+
+                dict(label = "Short_haul",
+                     method = "update",
+                     args = [{"visible": [True, False, False]},
+                             {"title": "Average Delay per short Flight"}],
+                       ),
+                dict(label = "Mid_haul",
+                     method = "update",
+                     args = [{"visible": [False, True, False]},
+                             {"title": "Average Delay per short Flight"}],
+                       ),
+                dict(label = "Long_haul",
+                     method = "update",
+                     args = [{"visible": [False, False, True]},
+                             {"title": "Average Delay per short Flight"}],
+                       )
+        ])
+             )
+    ]
+)
+
+fig1.show()

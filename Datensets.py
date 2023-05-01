@@ -24,4 +24,4 @@ df5.drop('IATA_CODE_x', axis=1, inplace=True)
 df5.drop('IATA_CODE_y', axis=1, inplace=True)
 
 # Speichere das Ergebnis als CSV-Datei
-df5.to_csv("Abgabe/res/TestAAA.csv", index=False)
+df5.to_csv("Abgabe/res/FertigesDatenset.csv", index=False)

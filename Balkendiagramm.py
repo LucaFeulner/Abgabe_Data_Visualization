@@ -1,8 +1,8 @@
-import pandas as pd
-import numpy as np
 import plotly.graph_objects as go
-import plotly.offline as pyo
-df = pd.read_csv("https://gist.githubusercontent.com/florianeichin/cfa1705e12ebd75ff4c321427126ccee/raw/c86301a0e5d0c1757d325424b8deec04cc5c5ca9/flights_all_cleaned.csv", sep= ",")
+import Datensets
+
+
+df = Datensets.df5
 
 #Geschschteltes Balkendiagramm durchschnittliche verspätete Zeit pro Flug
 #X-Achse Kurzstrec kenflüge bis <= 1.500Km, Rest ist Langstrecke
@@ -31,23 +31,25 @@ trace1 = go.Bar(
     x = airline_group,
     y = short_haul_avg_delay,
     name = "short_haul",
-    marker_color='rgb(55, 83, 109)'
+    marker_color='rgb(118, 204, 122)'
 )
 
 trace2 = go.Bar(
     x = airline_group,
-    y = long_haul_avg_delay,
-    name = "long_haul",
-    marker_color='rgb(26, 118, 255)'
+    y = medium_haul_avg_delay,
+    name = "medium_haul",
+    marker_color= 'rgb(26, 118, 255)'
+
 )
 
 trace3 = go.Bar(
     x = airline_group,
-    y = medium_haul_avg_delay,
-    name = "medium_haul",
-    marker_color= 'rgb(118, 204, 122)'
-
+    y = long_haul_avg_delay,
+    name = "long_haul",
+    marker_color='rgb(55, 83, 109)'
 )
+
+
 
 layout = go.Layout(
     title = "Average Delay per flight",

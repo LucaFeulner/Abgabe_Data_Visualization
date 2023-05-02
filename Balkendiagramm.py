@@ -1,7 +1,7 @@
 import plotly.graph_objects as go
-import Datensets
-import Layout
 
+import Layout
+import pandas as pd
 #_______________________________________________________________________________________________________________________________________________________
 
 #________________________________________________________Balkendiagramm____________________________________________________________________________________
@@ -16,7 +16,7 @@ import Layout
 # Filter durchschnitt, ankunft , verspätung
 
 # Datenset aus Datensets.py importieren 
-df = Datensets.df5
+df = pd.read_csv("Abgabe/res/AbgabeDatenset.csv")
 
 
 
@@ -123,4 +123,3 @@ fig1.update_layout(
     ]
 )
 
-fig1.show()

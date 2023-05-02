@@ -15,13 +15,12 @@ import pandas as pd
 
 # Filter durchschnitt, ankunft , verspätung
 
-# Datenset aus Datensets.py importieren 
-df = pd.read_csv("Abgabe/res/AbgabeDatenset.csv")
+# Fertiges Datenset was in Datensets.py bearbeitet wurde einlesen
+df = pd.read_csv("Abgabe/res/FertigesDatenset.csv")
 
 
 
 
-short_haul_flight = go.Bar(name = "Kurzstreckenflug", x = df["AIRLINE"])
 df["DELAY"] = df["SCHEDULED_TIME"]-df["ELAPSED_TIME"]
 avg_delay = df.groupby("AIRLINE")["DELAY"].mean()
 airline_group = df["AIRLINE"].unique()
@@ -123,3 +122,4 @@ fig1.update_layout(
     ]
 )
 
+fig1.show()

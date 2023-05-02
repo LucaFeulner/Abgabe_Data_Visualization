@@ -7,7 +7,7 @@ import Layout
 #________________________________________________________Balkendiagramm____________________________________________________________________________________
 #_______________________________________________________________________________________________________________________________________________________
 
-#Geschschteltes Balkendiagramm durchschnittliche verspätete Zeit pro Flug
+# Balkendiagramm durchschnittliche aufgeholte Zeit pro Flug
 #X-Achse Kurzstrec kenflüge bis <= 1.000, Mittelstrecke >1000 und <= 3000, Langstrecke > 3000.
 #Y-Achse durchschnittliche verspätung pro flug in Minuten
 #Beim Drüber hovern soll die Airline angezeigt werden und an der Seite gibt es eine legende mit den Farben für kurz und langstrecke
@@ -22,7 +22,7 @@ df = Datensets.df5
 
 
 short_haul_flight = go.Bar(name = "Kurzstreckenflug", x = df["AIRLINE"])
-df["DELAY"] = df["DEPARTURE_DELAY"]-df["DESTINATION_DELAY"]
+df["DELAY"] = df["SCHEDULED_TIME"]-df["ELAPSED_TIME"]
 avg_delay = df.groupby("AIRLINE")["DELAY"].mean()
 airline_group = df["AIRLINE"].unique()
 
@@ -60,14 +60,14 @@ trace3 = go.Bar(
     x = airline_group,
     y = long_haul_avg_delay,
     name = "long_haul",
-    marker_color='rgb(55, 83, 109)'
+    marker_color='rgb(55, 83, 109)',
     
 )
 
 
 # Style für das Balkendiagramm
 layout = go.Layout(
-    title = "Average Delay per flight",
+    title = "Average airtime difference",
     xaxis_tickfont_size=14,
     yaxis=dict(
         title='Delay in minutes',

@@ -1,55 +1,74 @@
 import plotly.graph_objects as go
 
-import Layout
 import pandas as pd
-#_______________________________________________________________________________________________________________________________________________________
 
-#________________________________________________________Liniendiagramm____________________________________________________________________________________
-#_______________________________________________________________________________________________________________________________________________________
+from urllib.request import urlopen
+import json
 
-# Wie viele Flüge gab es im Januar in den 10 größten Flughäfen
-# X-Achse 01.01.2015-31.01.15
-# Y-Achse zusammengezählter Wert
+df = pd.read_csv("Abgabe/res/FertigesDatenset.csv")
+df1 = pd.read_csv("Abgabe/res/staates.csv", sep=",")
+
+df = pd.merge(df, df1[['Postal', 'State']], left_on='STATE', right_on='Postal', how='left')
+df.drop('Postal', axis=1, inplace=True)
+df.to_csv("Abgabe/res/Desktop.csv")
 
 
-# Fertiges Datenset was in Datensets.py bearbeitet wurde einlesen
-df = pd.read_csv("Abgabe/res/AbgabeDatenset.csv")
+url_staaten = "https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json"
+token = 'pk.eyJ1IjoibHVjYWYyMDAyIiwiYSI6ImNsZm1sdmg2bTBkMG8zeG5wbmNkMmRmeXcifQ.6tnXcyV6b870rKIE023_pw'
 
-fluege_pro_airline = df.groupby("AIRLINE")["FLIGHT_NUMBER"].count()
-zehn_groeßten_airlines = fluege_pro_airline.nlargest(10).index
 
-datenset_zehn = df[df["AIRLINE"].isin(zehn_groeßten_airlines)]
 
-farben = ["#143d59", "#e71989", "#b8df10", "#f6b60d", "#5e057e", "#a2eacb", "#761137", "#514644", "#0f4d19", "#104c91"]
-farben_zaehler = 0
+with urlopen(url_staaten) as response:
+    geo_data = json.load(response)
+
+for feature in geo_data['features']:
+    feature['id'] = feature['properties']['name']
+
+
+
+
 fig = go.Figure()
 
-# Datenset das nach Airline und dann nach Tagen gruppiert wurde, und die Anzahl der Flugnummer zählt, da Flugnummern einmalig sind
-fluege_anzahl = datenset_zehn.groupby(["AIRLINE", "DAY"])["FLIGHT_NUMBER"].count().reset_index()
+df_staaten_mean  = df.groupby("State").mean()
 
-for airline in fluege_anzahl["AIRLINE"].unique():
-    fig.add_trace(go.Scatter(
-                            x = fluege_anzahl[fluege_anzahl["AIRLINE"] == airline ]["DAY"],
-                            y =fluege_anzahl[fluege_anzahl["AIRLINE"] == airline]["FLIGHT_NUMBER"],
-                            name = airline,
-                            line_color = farben[farben_zaehler]
 
-                            
-                            )
-                )
-    farben_zaehler = farben_zaehler +  1
 
-fig.update_layout(  title="Anzahl der Flüge pro Tag und Fluggesellschaft im Januar 2015",
-                    xaxis = dict(
-                                tickvals = fluege_anzahl['DAY'].unique(),
-                                gridcolor = "lightgray",
-                                title = "Tag",
-                                ),
-                    yaxis = dict( 
-                                title = "Anzahl der Flüge",
-                                gridcolor = "lightgray"
-                                ),
-                    plot_bgcolor = "white"
-                    )
+a = go.Choroplethmapbox(
+                    geojson = geo_data,
+                    locations=  df_staaten_mean.index,
+                    z =  df_staaten_mean.FLIGHT_NUMBER,
+                    marker_opacity=0.7,
+                    marker_line_width=1,
+                    colorscale='GnBu'
+                    
+    )
+
+
+fig.add_trace(a)
+
+fig.update_layout(
+                    mapbox_accesstoken = token,
+                    mapbox_style = "light",
+                    mapbox_zoom = 2.8,
+                    mapbox_center={"lat": 37.090240, "lon": -95.712891}
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
+
 
 fig.show()

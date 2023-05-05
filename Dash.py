@@ -5,7 +5,9 @@ import plotly.graph_objects as go
 
 
 import Balkendiagramm
-
+import Liniendiagramm
+import Scatter
+import Mapbox
 
 
 app = dash.Dash()
@@ -19,17 +21,23 @@ app = dash.Dash()
 
 app.layout = html.Div([
     dcc.Graph(
-        id= "Verspätung-pro-Flug",
+        id= "Liniendiagramm",
+        figure= Liniendiagramm.fig
+            ),
+    dcc.Graph(
+        id= "Scatterplot",
+        figure= Scatter.fig
+            ),
+    dcc.Graph(
+        id= "Balkendiagramm",
         figure= Balkendiagramm.fig1
             ),
-        dcc.Graph(
-            id="Scatterplot",
-            figure= {
-            "data": [],
-            "layout": go.Layout()
-            }
-        )
+    dcc.Graph(
+        id= "Mapbox",
+        figure= Mapbox.fig
+            )
 ])
+       
 
 
 if __name__ == "__main__":

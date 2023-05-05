@@ -37,10 +37,10 @@ for i, flughafen in enumerate(anzahl_top20["AIRPORT"].unique()):
 layout = go.Layout(
     title = "Flugzahlen pro Flughafen und pro Tag",
     xaxis = dict(
-            title =  "Tag"
+            title =  "Tage im Januar"
                 ),
     yaxis= dict(
-            title = "Anzahl Flüge"
+            title = "Anzahl der Flüge"
                 )
 )
 

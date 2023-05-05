@@ -1,10 +1,11 @@
 import plotly.graph_objects as go
 
 layout_Barchart = go.Layout(
-                            title = "Average Delay per flight",
+                            title = "Durchschnittliche aufgeholte Zeit pro Fluggesellschaft",
                             xaxis_tickfont_size=14,
+                            xaxis_title = "Fluggesellschaften",
                             yaxis=dict(
-                                title='Delay in minutes',
+                                title='aufgeholte Zeit',
                                 titlefont_size=16,
                                 tickfont_size=14),
                             legend=dict(

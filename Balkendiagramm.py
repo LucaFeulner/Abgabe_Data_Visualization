@@ -41,7 +41,7 @@ fig1 = go.Figure()
 trace1 = go.Bar(
     x = airline_group,
     y = short_haul_avg_delay,
-    name = "short_haul",
+    name = "Kurzstrecke",
     marker_color='rgb(118, 204, 122)'
 )
 
@@ -49,7 +49,7 @@ trace1 = go.Bar(
 trace2 = go.Bar(
     x = airline_group,
     y = medium_haul_avg_delay,
-    name = "medium_haul",
+    name = "Mittelstrecke",
     marker_color= 'rgb(26, 118, 255)'
 
 )
@@ -58,7 +58,7 @@ trace2 = go.Bar(
 trace3 = go.Bar(
     x = airline_group,
     y = long_haul_avg_delay,
-    name = "long_haul",
+    name = "Langstrecke",
     marker_color='rgb(55, 83, 109)',
     
 )
@@ -66,10 +66,11 @@ trace3 = go.Bar(
 
 # Style für das Balkendiagramm
 layout = go.Layout(
-    title = "Average airtime difference",
+    title = "Aufgeholte Zeit in der Luft",
     xaxis_tickfont_size=14,
+    xaxis_title = "Fluggesellschaften",
     yaxis=dict(
-        title='Delay in minutes',
+        title='Aufgeholte Zeit in Minuten',
         titlefont_size=16,
         tickfont_size=14,
     ),
@@ -97,25 +98,25 @@ fig1.update_layout(
         dict(
             active = 0, 
             buttons = list([
-                dict(label = "None",
+                dict(label = "Alle Flugarten",
                      method = "update",
                      args = [{"visible": [True, True, True]},
-                             {"title": "Average Delay per Flight"}]),
+                             {"title": "Durchschnittliche aufgeholte Zeit pro Fluggesellschaft"}]),
 
-                dict(label = "Short_haul",
+                dict(label = "Kurzstrecke",
                      method = "update",
                      args = [{"visible": [True, False, False]},
-                             {"title": "Average Delay per short Flight"}],
+                             {"title": "Durchschnittliche aufgeholte Zeit pro Fluggesellschaft nur Kurzstrecke"}],
                        ),
-                dict(label = "Mid_haul",
+                dict(label = "Mittelstrecke",
                      method = "update",
                      args = [{"visible": [False, True, False]},
-                             {"title": "Average Delay per short Flight"}],
+                             {"title": "Durchschnittliche aufgeholte Zeit pro Fluggesellschaft nur Mittelstrecke"}],
                        ),
-                dict(label = "Long_haul",
+                dict(label = "Langstrecke",
                      method = "update",
                      args = [{"visible": [False, False, True]},
-                             {"title": "Average Delay per short Flight"}],
+                             {"title": "Durchschnittliche aufgeholte Zeit pro Fluggesellschaft nur Langstrecke"}],
                        )
         ])
              )
